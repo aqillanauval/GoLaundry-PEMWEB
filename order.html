@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buat Pesanan - GoLaundry</title>
+  <link rel="stylesheet" href="order.css">
+</head>
+<body>
+  <div class="dashboard">
+    <aside class="sidebar" id="sidebar">
+      <h2 class="logo">GoLaundry</h2>
+      <nav>
+        <a href="dashboard-customer.html">Dashboard</a>
+        <a href="order.html" class="active">Buat Pesanan</a>
+        <a href="riwayat.html">Riwayat Transaksi</a>
+        <a href="profile.html">Profil</a>
+        <a href="login.php?logout=1">Keluar</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <button id="menuToggle" class="menu-toggle">&#9776;</button>
+
+      <h1 id="formTitle">Buat Pesanan Baru</h1>
+      <p class="subtitle">Pilih layanan laundry yang kamu butuhkan.</p>
+
+      <section class="card">
+        <form id="orderForm">
+          <input type="hidden" id="orderId" value="">
+          <select id="layanan" required>
+            <option value="">-- Pilih Layanan --</option>
+          </select>
+          <input type="number" id="qty" step="0.1" min="0.1" placeholder="Jumlah (kg/item)" required>
+          <textarea id="catatan" placeholder="Catatan tambahan (opsional)" rows="3"></textarea>
+          <p id="orderError" class="error-text"></p>
+          <button type="submit" class="btn-primary" id="submitBtn">Buat Pesanan</button>
+          <a href="#" class="see-all" id="cancelEdit" style="display:none;">Batal edit</a>
+        </form>
+      </section>
+
+      <section class="card">
+        <h3>Pesanan Saya</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Layanan</th>
+              <th>Qty</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="orderBody"></tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <script src="order.js"></script>
+</body>
+</html>

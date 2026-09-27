@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manajemen Karyawan - GoLaundry</title>
+  <link rel="stylesheet" href="karyawan.css">
+</head>
+<body>
+  <div class="dashboard">
+    <aside class="sidebar" id="sidebar">
+      <h2 class="logo">GoLaundry</h2>
+      <nav>
+        <a href="dashboard-admin.html">Dashboard</a>
+        <a href="layanan.html">Manajemen Layanan</a>
+        <a href="pelanggan.html">Manajemen Pelanggan</a>
+        <a href="transaksi.html">Riwayat Transaksi</a>
+        <a href="karyawan.html" class="active">Manajemen Karyawan</a>
+        <a href="profile.html">Profil</a>
+        <a href="login.php?logout=1">Keluar</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <button id="menuToggle" class="menu-toggle">&#9776;</button>
+
+      <h1>Manajemen Karyawan</h1>
+      <p class="subtitle">Kelola data karyawan yang kerja di GoLaundry.</p>
+
+      <section class="card">
+        <form id="karyawanForm">
+          <input type="hidden" id="karyawanId" value="">
+          <input type="text" id="nama" placeholder="Nama Karyawan" required>
+          <input type="text" id="jabatan" placeholder="Jabatan (contoh: Kasir, Kurir)" required>
+          <input type="text" id="noHp" placeholder="No. HP" required>
+          <p id="karyawanError" class="error-text"></p>
+          <button type="submit" class="btn-primary" id="submitBtn">Tambah Karyawan</button>
+          <a href="#" class="see-all" id="batalEdit" style="display:none;">Batal edit</a>
+        </form>
+      </section>
+
+      <section class="card">
+        <h3>Daftar Karyawan</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>Jabatan</th>
+              <th>No. HP</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="karyawanBody"></tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <script src="karyawan.js"></script>
+</body>
+</html>

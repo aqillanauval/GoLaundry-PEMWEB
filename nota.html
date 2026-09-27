@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nota - GoLaundry</title>
+  <link rel="stylesheet" href="nota.css">
+</head>
+<body>
+  <div class="nota-wrapper">
+    <div class="nota-actions no-print">
+      <a href="riwayat.html" id="backLink">&larr; Kembali</a>
+      <button id="printBtn" class="btn-primary">Cetak / Unduh Nota</button>
+    </div>
+
+    <div class="nota-box">
+      <div class="nota-header">
+        <h2>GoLaundry</h2>
+        <p>Nota Pembayaran Laundry</p>
+      </div>
+
+      <div class="nota-info">
+        <div>
+          <p><strong>No. Nota:</strong> <span id="notaId"></span></p>
+          <p><strong>Tanggal:</strong> <span id="notaTanggal"></span></p>
+        </div>
+        <div>
+          <p><strong>Pelanggan:</strong> <span id="notaCustomer"></span></p>
+          <p><strong>Status:</strong> <span id="notaStatus"></span></p>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Layanan</th>
+            <th>Qty</th>
+            <th>Harga Satuan</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody id="notaBody"></tbody>
+      </table>
+
+      <p class="nota-catatan" id="notaCatatan" style="display:none;"></p>
+
+      <div class="nota-total">
+        <span>Total Bayar</span>
+        <span id="notaTotal"></span>
+      </div>
+
+      <p class="nota-footer">Terima kasih sudah pakai GoLaundry!</p>
+    </div>
+  </div>
+
+  <script src="nota.js"></script>
+</body>
+</html>

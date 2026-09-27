@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil - GoLaundry</title>
+  <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+  <div class="dashboard">
+    <aside class="sidebar" id="sidebar">
+      <h2 class="logo">GoLaundry</h2>
+      <nav id="navMenu"></nav>
+    </aside>
+
+    <main class="content">
+      <button id="menuToggle" class="menu-toggle">&#9776;</button>
+
+      <h1>Profil Saya</h1>
+      <p class="subtitle">Kelola data diri akunmu.</p>
+
+      <section class="card">
+        <h3>Data Diri</h3>
+        <form id="profileForm">
+          <label class="field-label">Email / No. HP</label>
+          <input type="text" id="username" disabled>
+
+          <label class="field-label">Nama Lengkap</label>
+          <input type="text" id="nama" required>
+
+          <label class="field-label">Role</label>
+          <input type="text" id="role" disabled>
+
+          <p id="profileError" class="error-text"></p>
+          <p id="profileSuccess" class="success-text"></p>
+
+          <button type="submit" class="btn-primary">Simpan Perubahan</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="profile.js"></script>
+</body>
+</html>

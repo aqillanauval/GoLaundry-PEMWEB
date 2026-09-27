@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - GoLaundry</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <div class="login-box">
+    <h2>Selamat Datang!</h2>
+    <p class="subtitle">Masuk ke akun Anda untuk mengakses layanan laundry.</p>
+
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Email atau No. HP" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <select id="role" required>
+        <option value="customer">Masuk sebagai Customer</option>
+        <option value="admin">Masuk sebagai Admin/Staff</option>
+      </select>
+      <label class="ingat-label">
+        <input type="checkbox" id="ingatSaya"> Ingat username saya
+      </label>
+      <p id="loginError" class="error-text"></p>
+      <button type="submit" class="btn-primary">Masuk</button>
+    </form>
+
+    <p class="register-text">Belum punya akun? <a href="register.html">Daftar di sini</a></p>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>
