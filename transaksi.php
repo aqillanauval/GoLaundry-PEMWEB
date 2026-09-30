@@ -36,61 +36,179 @@ function saveOrders($orders) {
 }
 
 function loadUsers() {
-    $users = [
-        "admin@golaundry.com" => ["password" => "admin123", "nama" => "Admin GoLaundry", "role" => "admin"],
-        "pelanggan@golaundry.com" => ["password" => "pelanggan123", "nama" => "Pelanggan GoLaundry", "role" => "customer"]
-    ];
-
+    $users = [];
     if (file_exists("users.txt")) {
         foreach (file("users.txt", FILE_IGNORE_NEW_LINES) as $baris) {
             $data = explode(",", $baris);
             if (count($data) === 4) {
-                $users[$data[0]] = ["password" => $data[1], "nama" => $data[2], "role" => $data[3]];
+                $users[] = ["username" => $data[0], "nama" => $data[2], "role" => $data[3]];
             }
         }
     }
-
     return $users;
+}
+
+function loadLayanan() {
+    $layanan = [];
+    if (file_exists("layanan.txt")) {
+        foreach (file("layanan.txt", FILE_IGNORE_NEW_LINES) as $baris) {
+            $data = explode(",", $baris);
+            if (count($data) === 4) {
+                $layanan[] = ["id" => $data[0], "nama" => $data[1], "harga" => (int)$data[2], "satuan" => $data[3]];
+            }
+        }
+    }
+    return $layanan;
 }
 
 function rupiah($n) {
     return "Rp " . number_format($n, 0, ",", ".");
 }
 
+$statusList = ["Diterima", "Dicuci", "Selesai", "Diambil"];
+
 $method = $_SERVER["REQUEST_METHOD"];
 
-// bagian kelola transaksi punya admin: hapus data yang salah input
+// bagian CRUD transaksi: tambah (buat transaksi manual/walk-in), edit, hapus
 if ($method === "POST") {
     $input = json_decode(file_get_contents("php://input"), true);
-    $id = $input["id"] ?? "";
-
+    $action = $input["action"] ?? "";
     $orders = loadOrders();
-    $sisaOrder = [];
-    foreach ($orders as $o) {
-        if ($o["id"] !== $id) {
-            $sisaOrder[] = $o;
-        }
-    }
-    saveOrders($sisaOrder);
 
-    echo json_encode(["success" => true]);
+    // tambah transaksi manual, dipakai kalau ada pelanggan yang bayar langsung di tempat
+    if ($action === "tambah") {
+        $username = $input["username"] ?? "";
+        $layananId = $input["layanan_id"] ?? "";
+        $qty = floatval($input["qty"] ?? 0);
+        $catatan = str_replace(",", " ", trim($input["catatan"] ?? ""));
+        $status = $input["status"] ?? "Diterima";
+
+        if ($username === "" || $layananId === "" || $qty <= 0) {
+            echo json_encode(["success" => false, "message" => "Pelanggan, layanan, dan jumlah wajib diisi dengan benar."]);
+            exit;
+        }
+
+        $layananDipilih = null;
+        foreach (loadLayanan() as $l) {
+            if ($l["id"] === $layananId) {
+                $layananDipilih = $l;
+                break;
+            }
+        }
+
+        if (!$layananDipilih) {
+            echo json_encode(["success" => false, "message" => "Layanan tidak ditemukan."]);
+            exit;
+        }
+
+        if (!in_array($status, $statusList)) {
+            $status = "Diterima";
+        }
+
+        $orders[] = [
+            "id" => uniqid("ORD"), "username" => $username, "layanan" => $layananDipilih["nama"],
+            "harga" => $layananDipilih["harga"], "satuan" => $layananDipilih["satuan"], "qty" => $qty,
+            "catatan" => $catatan, "status" => $status, "tanggal" => date("d M Y H:i")
+        ];
+        saveOrders($orders);
+        echo json_encode(["success" => true]);
+        exit;
+    }
+
+    // edit transaksi yang sudah ada
+    if ($action === "edit") {
+        $id = $input["id"] ?? "";
+        $layananId = $input["layanan_id"] ?? "";
+        $qty = floatval($input["qty"] ?? 0);
+        $catatan = str_replace(",", " ", trim($input["catatan"] ?? ""));
+        $status = $input["status"] ?? "";
+
+        if ($layananId === "" || $qty <= 0 || !in_array($status, $statusList)) {
+            echo json_encode(["success" => false, "message" => "Layanan, jumlah, dan status wajib diisi dengan benar."]);
+            exit;
+        }
+
+        $layananDipilih = null;
+        foreach (loadLayanan() as $l) {
+            if ($l["id"] === $layananId) {
+                $layananDipilih = $l;
+                break;
+            }
+        }
+
+        if (!$layananDipilih) {
+            echo json_encode(["success" => false, "message" => "Layanan tidak ditemukan."]);
+            exit;
+        }
+
+        $found = false;
+        foreach ($orders as &$o) {
+            if ($o["id"] === $id) {
+                $o["layanan"] = $layananDipilih["nama"];
+                $o["harga"] = $layananDipilih["harga"];
+                $o["satuan"] = $layananDipilih["satuan"];
+                $o["qty"] = $qty;
+                $o["catatan"] = $catatan;
+                $o["status"] = $status;
+                $found = true;
+                break;
+            }
+        }
+        unset($o);
+
+        if ($found) {
+            saveOrders($orders);
+            echo json_encode(["success" => true]);
+        } else {
+            echo json_encode(["success" => false, "message" => "Transaksi tidak ditemukan."]);
+        }
+        exit;
+    }
+
+    // hapus transaksi, buat jaga-jaga kalau ada data yang salah input/duplikat
+    if ($action === "hapus") {
+        $id = $input["id"] ?? "";
+        $sisa = [];
+        foreach ($orders as $o) {
+            if ($o["id"] !== $id) {
+                $sisa[] = $o;
+            }
+        }
+        saveOrders($sisa);
+        echo json_encode(["success" => true]);
+        exit;
+    }
+
+    echo json_encode(["success" => false, "message" => "Aksi tidak dikenal."]);
     exit;
 }
 
-// method GET: read, kirim semua transaksi dari semua pelanggan buat direkap admin
+// method GET: read, kirim semua transaksi + data pendukung buat form (daftar pelanggan & layanan)
 $orders = loadOrders();
 $users = loadUsers();
+$layananList = loadLayanan();
+
+// dari daftar user, ambil nama buat ditempel ke tiap transaksi + siapin daftar pelanggan buat dropdown
+$namaPerUsername = [];
+$pelanggan = [];
+foreach ($users as $u) {
+    $namaPerUsername[$u["username"]] = $u["nama"];
+    if ($u["role"] === "customer") {
+        $pelanggan[] = ["username" => $u["username"], "nama" => $u["nama"]];
+    }
+}
 
 $totalPendapatan = 0;
 $transaksi = [];
 foreach (array_reverse($orders) as $o) {
-    $namaCustomer = isset($users[$o["username"]]) ? $users[$o["username"]]["nama"] : $o["username"];
+    $namaCustomer = isset($namaPerUsername[$o["username"]]) ? $namaPerUsername[$o["username"]] : $o["username"];
     $subtotal = $o["harga"] * $o["qty"];
     $totalPendapatan += $subtotal;
 
     $transaksi[] = [
-        "id" => $o["id"], "customer" => $namaCustomer, "layanan" => $o["layanan"],
-        "qty" => $o["qty"], "satuan" => $o["satuan"], "total" => rupiah($subtotal),
+        "id" => $o["id"], "username" => $o["username"], "customer" => $namaCustomer,
+        "layanan" => $o["layanan"], "qty" => $o["qty"], "satuan" => $o["satuan"],
+        "catatan" => $o["catatan"], "total" => rupiah($subtotal),
         "tanggal" => $o["tanggal"], "status" => $o["status"]
     ];
 }
@@ -99,5 +217,7 @@ echo json_encode([
     "success" => true,
     "totalTransaksi" => count($transaksi),
     "totalPendapatan" => rupiah($totalPendapatan),
-    "transaksi" => $transaksi
+    "transaksi" => $transaksi,
+    "pelanggan" => $pelanggan,
+    "layanan" => $layananList
 ]);

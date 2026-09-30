@@ -1,2 +1,6 @@
+<<<<<<< HEAD
 admin@golaundry.com,admin123,Admin GoLaundry,admin
 pelanggan@golaundry.com,pelanggan123,Pelanggan 1,customer
+=======
+mham30590@gmail.com,12345,Muhammad Ilham,admin
+>>>>>>> 28e308e733f818697bde929d0b522f0bb19e6ddc

@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      document.getElementById('greeting').textContent = 'Halo, ' + data.nama + ' \u{1F44B}';
+      document.getElementById('greeting').textContent = 'Halo, ' + data.nama;
 
       const statusCard = document.getElementById('statusCard');
       if (!data.hasActiveOrder) {
