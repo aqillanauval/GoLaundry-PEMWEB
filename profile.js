@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
       html += '<a href="dashboard-admin.html">Dashboard</a>';
       html += '<a href="layanan.html">Manajemen Layanan</a>';
       html += '<a href="pelanggan.html">Manajemen Pelanggan</a>';
-      html += '<a href="transaksi.html">Riwayat Transaksi</a>';
       html += '<a href="karyawan.html">Manajemen Karyawan</a>';
+      html += '<a href="transaksi.html">Riwayat Transaksi</a>';
     } else {
       html += '<a href="dashboard-customer.html">Dashboard</a>';
       html += '<a href="order.html">Buat Pesanan</a>';
