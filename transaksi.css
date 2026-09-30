@@ -242,3 +242,39 @@ th {
     white-space: nowrap;
   }
 }
+
+/* form tambah transaksi: dua kolom, label di atas isian */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 16px;
+}
+
+.form-grid label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.form-grid label input,
+.form-grid label select {
+  margin-top: 6px;
+  font-weight: normal;
+  color: #1e293b;
+}
+
+.form-grid .full {
+  grid-column: 1 / -1;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid #93c5fd;
+  border-color: #2563eb;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
