@@ -1,0 +1,2 @@
+admin@golaundry.com,admin123,Admin GoLaundry,admin
+pelanggan@golaundry.com,pelanggan123,Pelanggan 1,customer

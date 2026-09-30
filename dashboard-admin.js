@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
           return;
         }
 
-        document.getElementById('greeting').textContent = 'Halo, ' + data.nama + ' \u{1F44B}';
+        document.getElementById('greeting').textContent = 'Halo, ' + data.nama;
         document.getElementById('statPesananHariIni').textContent = data.pesananHariIni;
         document.getElementById('statBelumDiproses').textContent = data.belumDiproses;
         document.getElementById('statPendapatan').textContent = data.pendapatanHariIni;
