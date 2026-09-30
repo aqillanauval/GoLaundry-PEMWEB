@@ -1,3 +1,5 @@
+/* ===== Tema GoLaundry: biru #1e3a8a / #2563eb, latar #f0f4f8 ===== */
+
 * {
   margin: 0;
   padding: 0;
@@ -8,6 +10,16 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f0f4f8;
   color: #1e293b;
+}
+
+a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
 }
 
 .dashboard {
@@ -51,6 +63,7 @@ body {
 .content {
   flex: 1;
   padding: 32px;
+  min-width: 0;
 }
 
 .menu-toggle {
@@ -60,6 +73,7 @@ body {
   font-size: 22px;
   margin-bottom: 16px;
   cursor: pointer;
+  color: #1e3a8a;
 }
 
 .content h1 {
@@ -78,24 +92,40 @@ body {
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
 }
 
+/* ===== Tabel ===== */
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 th, td {
   text-align: left;
   padding: 10px 8px;
   border-bottom: 1px solid #e2e8f0;
+  vertical-align: top;
 }
 
 th {
   color: #64748b;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 12px;
+  background-color: #f8fafc;
+}
+
+tbody tr:hover {
+  background-color: #eff6ff;
+}
+
+.hapus-ulasan {
+  color: #dc2626;
+}
+
+.hapus-ulasan:hover {
+  color: #b91c1c;
 }
 
 .badge {
@@ -104,8 +134,10 @@ th {
   padding: 4px 10px;
   border-radius: 999px;
   font-size: 12px;
+  white-space: nowrap;
 }
 
+/* ===== Mobile ===== */
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
@@ -122,5 +154,14 @@ th {
 
   .menu-toggle {
     display: block;
+  }
+
+  .content {
+    padding: 20px 16px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
   }
 }

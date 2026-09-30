@@ -13,9 +13,17 @@ document.addEventListener('DOMContentLoaded', function () {
     return 'Rp ' + Number(n).toLocaleString('id-ID');
   }
 
+  // catatan diketik bebas, jadi karakter HTML-nya diamankan dulu sebelum masuk tabel
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
   function tampilkan(orders) {
     if (orders.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="7">Belum ada transaksi.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="8">Belum ada transaksi.</td></tr>';
       return;
     }
 
@@ -23,9 +31,9 @@ document.addEventListener('DOMContentLoaded', function () {
     for (let i = 0; i < orders.length; i++) {
       const o = orders[i];
 
-      // kolom ulasan cuma aktif kalau status pesanannya udah Selesai
+      // kolom ulasan cuma aktif kalau status pesanannya udah Selesai atau Diambil
       let ulasanHtml = '-';
-      if (o.status === 'Selesai') {
+      if (o.status === 'Selesai' || o.status === 'Diambil') {
         if (o.rating) {
           ulasanHtml = 'Bintang ' + o.rating + ' - ' + o.komentar +
             '<br><a href="#" class="edit-ulasan" data-id="' + o.id + '">Edit</a> | ' +
@@ -40,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
         '<td>' + o.tanggal + '</td>' +
         '<td>' + o.layanan + '</td>' +
         '<td>' + o.qty + ' ' + o.satuan + '</td>' +
+        '<td>' + (o.catatan ? esc(o.catatan) : '-') + '</td>' +
         '<td>' + rupiah(o.harga * o.qty) + '</td>' +
         '<td><span class="badge">' + o.status + '</span></td>' +
         '<td>' + ulasanHtml + '</td>' +

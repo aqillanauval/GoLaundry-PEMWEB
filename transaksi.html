@@ -38,6 +38,48 @@
         </div>
       </div>
 
+      <button id="btnTambah" type="button">+ Tambah Transaksi</button>
+
+      <section class="card" id="formCard" style="display:none;">
+        <h2 id="formJudul">Tambah Transaksi</h2>
+        <form id="formTransaksi">
+          <input type="hidden" id="fId">
+
+          <label>Nama Customer
+            <input type="text" id="fUsername" placeholder="Nama customer (boleh walk-in)" required>
+          </label>
+          <label>Layanan
+            <input type="text" id="fLayanan" required>
+          </label>
+          <label>Harga per Satuan (Rp)
+            <input type="number" id="fHarga" min="1" required>
+          </label>
+          <label>Satuan
+            <input type="text" id="fSatuan" placeholder="kg / pcs" required>
+          </label>
+          <label>Qty
+            <input type="number" id="fQty" min="0.1" step="0.1" required>
+          </label>
+          <label>Catatan
+            <input type="text" id="fCatatan">
+          </label>
+          <label>Status
+            <select id="fStatus">
+              <option value="Diterima">Diterima</option>
+              <option value="Dicuci">Dicuci</option>
+              <option value="Selesai">Selesai</option>
+              <option value="Diambil">Diambil</option>
+            </select>
+          </label>
+          <label>Tanggal
+            <input type="date" id="fTanggal">
+          </label>
+
+          <button type="submit">Simpan</button>
+          <button type="button" id="btnBatal">Batal</button>
+        </form>
+      </section>
+
       <section class="card">
         <table>
           <thead>
@@ -46,6 +88,7 @@
               <th>Customer</th>
               <th>Layanan</th>
               <th>Qty</th>
+              <th>Catatan</th>
               <th>Total</th>
               <th>Tanggal</th>
               <th>Status</th>

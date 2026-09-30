@@ -56,11 +56,11 @@ if ($method === "POST") {
     $action = $input["action"] ?? "";
     $id = $input["id"] ?? "";
 
-    // pesanan harus punya user ini sendiri dan statusnya sudah Selesai baru boleh diulas
+    // pesanan harus punya user ini sendiri dan statusnya sudah Selesai/Diambil baru boleh diulas
     $orders = loadOrders();
     $milikSendiri = false;
     foreach ($orders as $o) {
-        if ($o["id"] === $id && $o["username"] === $username && $o["status"] === "Selesai") {
+        if ($o["id"] === $id && $o["username"] === $username && ($o["status"] === "Selesai" || $o["status"] === "Diambil")) {
             $milikSendiri = true;
             break;
         }

@@ -10,6 +10,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const tbody = document.getElementById('pesananBody');
   let statusOptions = [];
 
+  // nama customer walk-in diketik bebas oleh admin, jadi diamankan dulu
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
   function ambilData() {
     fetch('dashboard-admin.php')
       .then(function (res) {
@@ -50,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       html += '<tr>' +
         '<td><a href="nota.html?id=' + o.id + '">' + o.id + '</a></td>' +
-        '<td>' + o.customer + '</td>' +
+        '<td>' + esc(o.customer) + '</td>' +
         '<td>' + o.layanan + '</td>' +
         '<td>' + o.qty + ' ' + o.satuan + '</td>' +
         '<td>' + o.total + '</td>' +
