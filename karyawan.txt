@@ -1,2 +1,1 @@
-KRY6abbb9790d0e6,Ilham,kurir,08212345678
-KRY6abbbb812be25,budi,kasir,0987643478
+KRY6ab8a55d3a919,mopal,kasir,081

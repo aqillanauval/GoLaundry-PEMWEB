@@ -2,3 +2,4 @@ LYN001,Cuci Kering,7000,kg
 LYN002,Cuci Setrika,10000,kg
 LYN003,Dry Clean,15000,item
 LYN004,Cuci Express,15000,kg
+LYN6ab8b08d35869,cuci saja,2000,kg
