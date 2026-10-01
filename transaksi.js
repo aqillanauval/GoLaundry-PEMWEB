@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const form = document.getElementById('transaksiForm');
   const idInput = document.getElementById('transaksiId');
-  const usernameSelect = document.getElementById('username');
+  const namaPelangganInput = document.getElementById('namaPelanggan');
   const layananSelect = document.getElementById('layananId');
   const qtyInput = document.getElementById('qty');
   const catatanInput = document.getElementById('catatan');
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function resetForm() {
     idInput.value = '';
     form.reset();
-    usernameSelect.disabled = false;
+    namaPelangganInput.disabled = false;
     formTitle.textContent = 'Tambah Transaksi Manual';
     submitBtn.textContent = 'Tambah Transaksi';
     batalEdit.style.display = 'none';
@@ -81,9 +81,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('statTotalTransaksi').textContent = data.totalTransaksi;
         document.getElementById('statTotalPendapatan').textContent = data.totalPendapatan;
 
-        tampilkanPilihan(usernameSelect, data.pelanggan, 'username', function (p) {
-          return p.nama;
-        });
         tampilkanPilihan(layananSelect, data.layanan, 'id', function (l) {
           return l.nama + ' - Rp ' + l.harga + ' / ' + l.satuan;
         });
@@ -101,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const payload = {
       action: idInput.value ? 'edit' : 'tambah',
       id: idInput.value,
-      username: usernameSelect.value,
+      nama_pelanggan: namaPelangganInput.value.trim(),
       layanan_id: layananSelect.value,
       qty: qtyInput.value,
       catatan: catatanInput.value.trim(),
@@ -140,8 +137,8 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       if (t) {
         idInput.value = t.id;
-        usernameSelect.value = t.username;
-        usernameSelect.disabled = true; // customer di transaksi lama gak diubah, biar gak salah pindah pemilik
+        namaPelangganInput.value = t.customer;
+        namaPelangganInput.disabled = true; // customer di transaksi lama gak diubah, biar gak salah pindah pemilik
         qtyInput.value = t.qty;
         catatanInput.value = t.catatan;
         statusSelect.value = t.status;

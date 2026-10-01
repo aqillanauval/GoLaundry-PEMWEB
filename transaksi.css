@@ -109,6 +109,50 @@ body {
   margin-bottom: 20px;
 }
 
+.card-highlight {
+  border-left: 4px solid #2563eb;
+  background-color: #f8faff;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field-full {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  font-size: 13px;
+  color: #475569;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.form-actions .btn-primary {
+  margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .card h3 {
   font-size: 16px;
   color: #1e3a8a;
@@ -127,6 +171,7 @@ select {
   font-family: inherit;
 }
 
+input:disabled,
 select:disabled {
   background-color: #f1f5f9;
   color: #64748b;
@@ -240,41 +285,5 @@ th {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
-  }
-}
-
-/* form tambah transaksi: dua kolom, label di atas isian */
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 16px;
-}
-
-.form-grid label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #475569;
-}
-
-.form-grid label input,
-.form-grid label select {
-  margin-top: 6px;
-  font-weight: normal;
-  color: #1e293b;
-}
-
-.form-grid .full {
-  grid-column: 1 / -1;
-}
-
-input:focus,
-select:focus {
-  outline: 2px solid #93c5fd;
-  border-color: #2563eb;
-}
-
-@media (max-width: 768px) {
-  .form-grid {
-    grid-template-columns: 1fr;
   }
 }

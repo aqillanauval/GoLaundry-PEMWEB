@@ -76,15 +76,16 @@ if ($method === "POST") {
     $orders = loadOrders();
 
     // tambah transaksi manual, dipakai kalau ada pelanggan yang bayar langsung di tempat
+    // pelanggan cukup diketik namanya, jadi yang belum punya akun pun tetap bisa dicatat transaksinya
     if ($action === "tambah") {
-        $username = $input["username"] ?? "";
+        $namaPelanggan = trim($input["nama_pelanggan"] ?? "");
         $layananId = $input["layanan_id"] ?? "";
         $qty = floatval($input["qty"] ?? 0);
         $catatan = str_replace(",", " ", trim($input["catatan"] ?? ""));
         $status = $input["status"] ?? "Diterima";
 
-        if ($username === "" || $layananId === "" || $qty <= 0) {
-            echo json_encode(["success" => false, "message" => "Pelanggan, layanan, dan jumlah wajib diisi dengan benar."]);
+        if ($namaPelanggan === "" || $layananId === "" || $qty <= 0) {
+            echo json_encode(["success" => false, "message" => "Nama pelanggan, layanan, dan jumlah wajib diisi dengan benar."]);
             exit;
         }
 
@@ -105,8 +106,10 @@ if ($method === "POST") {
             $status = "Diterima";
         }
 
+        $namaPelanggan = str_replace(",", " ", $namaPelanggan);
+
         $orders[] = [
-            "id" => uniqid("ORD"), "username" => $username, "layanan" => $layananDipilih["nama"],
+            "id" => uniqid("ORD"), "username" => $namaPelanggan, "layanan" => $layananDipilih["nama"],
             "harga" => $layananDipilih["harga"], "satuan" => $layananDipilih["satuan"], "qty" => $qty,
             "catatan" => $catatan, "status" => $status, "tanggal" => date("d M Y H:i")
         ];
@@ -183,19 +186,15 @@ if ($method === "POST") {
     exit;
 }
 
-// method GET: read, kirim semua transaksi + data pendukung buat form (daftar pelanggan & layanan)
+// method GET: read, kirim semua transaksi + daftar layanan buat pilihan di form
 $orders = loadOrders();
 $users = loadUsers();
 $layananList = loadLayanan();
 
-// dari daftar user, ambil nama buat ditempel ke tiap transaksi + siapin daftar pelanggan buat dropdown
+// dari daftar user, ambil nama buat ditempel ke tiap transaksi (kalau transaksinya punya akun terdaftar)
 $namaPerUsername = [];
-$pelanggan = [];
 foreach ($users as $u) {
     $namaPerUsername[$u["username"]] = $u["nama"];
-    if ($u["role"] === "customer") {
-        $pelanggan[] = ["username" => $u["username"], "nama" => $u["nama"]];
-    }
 }
 
 $totalPendapatan = 0;
@@ -218,6 +217,5 @@ echo json_encode([
     "totalTransaksi" => count($transaksi),
     "totalPendapatan" => rupiah($totalPendapatan),
     "transaksi" => $transaksi,
-    "pelanggan" => $pelanggan,
     "layanan" => $layananList
 ]);

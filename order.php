@@ -55,13 +55,13 @@ function saveOrders($orders) {
 
 $method = $_SERVER["REQUEST_METHOD"];
 
-// bagian ini yang isinya CRUD buat pesanan: create, update, sama delete (batalkan)
+// bagian CRUD buat pesanan: tambah, edit, sama hapus (batalkan)
 if ($method === "POST") {
     $input = json_decode(file_get_contents("php://input"), true);
-    $action = $input["action"] ?? "create";
+    $action = $input["action"] ?? "";
     $orders = loadOrders();
 
-    if ($action === "create" || $action === "update") {
+    if ($action === "tambah" || $action === "edit") {
         $layananKey = $input["layanan"] ?? "";
         $qty = floatval($input["qty"] ?? 0);
         $catatan = str_replace(",", " ", trim($input["catatan"] ?? ""));
@@ -77,8 +77,8 @@ if ($method === "POST") {
 
         $layanan = $layananList[$layananKey];
 
-        // create: bikin pesanan baru
-        if ($action === "create") {
+        // tambah: bikin pesanan baru
+        if ($action === "tambah") {
             $orders[] = [
                 "id" => uniqid("ORD"), "username" => $username, "layanan" => $layanan["nama"],
                 "harga" => $layanan["harga"], "satuan" => $layanan["satuan"], "qty" => $qty,
@@ -87,7 +87,7 @@ if ($method === "POST") {
             saveOrders($orders);
             echo json_encode(["success" => true]);
         } else {
-            // update: ubah pesanan yang sudah ada, cuma boleh kalau statusnya masih Diterima
+            // edit: ubah pesanan yang sudah ada, cuma boleh kalau statusnya masih Diterima
             $id = $input["id"] ?? "";
             $found = false;
             foreach ($orders as &$o) {
@@ -112,8 +112,8 @@ if ($method === "POST") {
         exit;
     }
 
-    // delete: batalkan pesanan (cuma boleh kalau masih Diterima)
-    if ($action === "cancel") {
+    // hapus: batalkan pesanan (cuma boleh kalau masih Diterima)
+    if ($action === "hapus") {
         $id = $input["id"] ?? "";
         $sisaOrder = [];
         foreach ($orders as $o) {

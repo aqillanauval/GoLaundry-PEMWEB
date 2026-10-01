@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
     errorText.textContent = '';
 
     const payload = {
-      action: orderIdInput.value ? 'update' : 'create',
+      action: orderIdInput.value ? 'edit' : 'tambah',
       id: orderIdInput.value,
       layanan: layananSelect.value,
       qty: qtyInput.value,
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
       fetch('order.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'cancel', id: cancelLink.dataset.id })
+        body: JSON.stringify({ action: 'hapus', id: cancelLink.dataset.id })
       })
         .then(function (res) {
           return res.json();
